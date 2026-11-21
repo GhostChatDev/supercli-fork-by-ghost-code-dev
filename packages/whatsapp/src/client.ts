@@ -1,4 +1,4 @@
-import { WhatsAppClient } from "@kapso/whatsapp-cloud-api"
+import { WhatsAppClient, type TemplateComponent } from "@kapso/whatsapp-cloud-api"
 import { getWhatsAppConfig, type WhatsAppConfig } from "./config"
 import { encodeActionPayload } from "./payloads"
 
@@ -49,15 +49,15 @@ export async function sendReviewComplete(params: {
   config?: WhatsAppConfig
 }) {
   const config = params.config ?? getWhatsAppConfig()
-  const components: Array<Record<string, unknown>> = [
+  const components: TemplateComponent[] = [
     {
       type: "body",
       parameters: [
-        { type: "text", parameter_name: "repository", text: params.repository },
-        { type: "text", parameter_name: "pr_number", text: String(params.prNumber) },
-        { type: "text", parameter_name: "pr_title", text: params.prTitle.slice(0, 120) },
-        { type: "text", parameter_name: "summary", text: params.summary.slice(0, 500) },
-        { type: "text", parameter_name: "pr_url", text: params.prUrl },
+        { type: "text", parameterName: "repository", text: params.repository },
+        { type: "text", parameterName: "pr_number", text: String(params.prNumber) },
+        { type: "text", parameterName: "pr_title", text: params.prTitle.slice(0, 120) },
+        { type: "text", parameterName: "summary", text: params.summary.slice(0, 500) },
+        { type: "text", parameterName: "pr_url", text: params.prUrl },
       ],
     },
   ]
@@ -66,7 +66,7 @@ export async function sendReviewComplete(params: {
     components.push(
       {
         type: "button",
-        sub_type: "quick_reply",
+        subType: "quick_reply",
         index: "0",
         parameters: [
           { type: "payload", payload: encodeActionPayload("approve", params.reviewId) },
