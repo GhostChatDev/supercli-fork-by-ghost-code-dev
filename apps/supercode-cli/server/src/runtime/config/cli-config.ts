@@ -36,9 +36,13 @@ export interface McpServerConfig {
   env?: Record<string, string>
   cwd?: string
   url?: string
+  type?: "stdio" | "sse" | "http"
+  headers?: Record<string, string>
 }
 
 export interface McpCredentials {
+  accessToken?: string
+  refreshToken?: string
   connectorUid?: string
   serverUrl?: string
   clientId?: string
