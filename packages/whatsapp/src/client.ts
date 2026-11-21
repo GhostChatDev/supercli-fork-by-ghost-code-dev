@@ -82,7 +82,7 @@ export async function sendReviewComplete(params: {
       },
       {
         type: "button",
-        sub_type: "quick_reply",
+        subType: "quick_reply",
         index: "1",
         parameters: [
           {
@@ -96,8 +96,7 @@ export async function sendReviewComplete(params: {
 
   return getWhatsAppClient(config).messages.sendTemplate({
     phoneNumberId: config.phoneNumberId,
-    ...(params.to ? { to: params.to.replace(/^\+/, "") } : {}),
-    ...(params.recipient ? { recipient: params.recipient } : {}),
+    ...recipientAddress(params),
     template: {
       name: config.reviewTemplateName,
       language: { code: config.templateLanguage },
@@ -115,8 +114,7 @@ export async function sendWhatsAppText(params: {
   const config = params.config ?? getWhatsAppConfig()
   return getWhatsAppClient(config).messages.sendText({
     phoneNumberId: config.phoneNumberId,
-    ...(params.to ? { to: params.to.replace(/^\+/, "") } : {}),
-    ...(params.recipient ? { recipient: params.recipient } : {}),
+    ...recipientAddress(params),
     body: params.body,
   })
 }
