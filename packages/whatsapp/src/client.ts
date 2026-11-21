@@ -1,6 +1,14 @@
-import { WhatsAppClient, type TemplateComponent } from "@kapso/whatsapp-cloud-api"
+import { WhatsAppClient } from "@kapso/whatsapp-cloud-api"
 import { getWhatsAppConfig, type WhatsAppConfig } from "./config"
 import { encodeActionPayload } from "./payloads"
+
+type TemplateComponents = NonNullable<Parameters<WhatsAppClient["messages"]["sendTemplate"]>[0]["template"]["components"]>
+
+function recipientAddress(params: { to?: string | null; recipient?: string | null }) {
+  if (params.to) return { to: params.to.replace(/^\+/, "") }
+  if (params.recipient) return { recipient: params.recipient }
+  throw new Error("A recipient is required")
+}
 
 let cachedClient: WhatsAppClient | null = null
 
@@ -49,7 +57,7 @@ export async function sendReviewComplete(params: {
   config?: WhatsAppConfig
 }) {
   const config = params.config ?? getWhatsAppConfig()
-  const components: TemplateComponent[] = [
+  const components: TemplateComponents = [
     {
       type: "body",
       parameters: [
