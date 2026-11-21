@@ -10,6 +10,7 @@ import { supercodeInit } from "./commands/ai/init"
 import { skillCommand } from "./commands/skill"
 import { renderWelcome } from "./utils/welcome"
 import { novaCommand } from "./commands/nova"
+import { mcpConnect } from "./commands/mcp-connect"
 
 process.on("unhandledRejection", (reason) => {
   try {
@@ -35,6 +36,7 @@ async function main() {
     .addCommand(supercodeInit)
     .addCommand(skillCommand)
     .addCommand(novaCommand)
+    .addCommand(mcpConnect)
 
   program.action(async () => {
     renderWelcome(version)

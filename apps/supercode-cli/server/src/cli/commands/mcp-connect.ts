@@ -1,7 +1,7 @@
 import { Command } from "commander"
 import { createInterface } from "node:readline/promises"
 import { stdin, stdout } from "node:process"
-import { getCliConfig, saveCliConfig } from "src/lib/cli-config"
+import { getCliConfig, saveCliConfig, type CliConfig } from "src/lib/cli-config"
 import { getMcpManager } from "src/mcp/mcp-manager"
 import {
   createGhostChatSetup,
@@ -17,7 +17,7 @@ async function configureGhostChat(url?: string): Promise<void> {
     // Prefer an environment variable so the token is not echoed or stored in shell history.
     const token = process.env[DEFAULT_GHOST_CHAT_TOKEN_ENV]
     const setup = createGhostChatSetup(mcpUrl, token ?? "")
-    const config = await getCliConfig()
+    const config: Partial<CliConfig> = (await getCliConfig()) ?? {}
     await saveCliConfig({
       ...config,
       mcpServers: { ...config.mcpServers, [setup.name]: setup.server },

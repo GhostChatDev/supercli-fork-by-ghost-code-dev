@@ -41,6 +41,8 @@ export interface McpServerConfig {
 }
 
 export interface McpCredentials {
+  accessToken?: string
+  refreshToken?: string
   connectorUid?: string
   serverUrl?: string
   clientId?: string
