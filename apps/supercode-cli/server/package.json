@@ -11,7 +11,7 @@
     "dev:cli": "bun src/cli/main.ts",
     "start": "bun src/index.ts",
     "build": "bun run build:cli",
-    "build:cli": "bun build --target node --packages bundle --outdir dist --entry ./src/cli/main.ts --external '@modelcontextprotocol/sdk' --external '@opentui/core' --external '@opentui/react' --external 'react' && sed -i '' 's|#!/usr/bin/env bun|#!/usr/bin/env node|' dist/main.js",
+    "build:cli": "bun build --target node --packages bundle --outdir dist --entry ./src/cli/main.ts --external '@modelcontextprotocol/sdk' --external '@opentui/core' --external '@opentui/react' --external 'react' && bun --eval \"const file = 'dist/main.js'; const source = await Bun.file(file).text(); await Bun.write(file, source.replace('#!/usr/bin/env bun', '#!/usr/bin/env node'));\"",
     "test": "bun test",
     "desktop:contracts": "bun scripts/export-desktop-contracts.ts",
     "desktop:contracts:check": "bun scripts/export-desktop-contracts.ts --check",
